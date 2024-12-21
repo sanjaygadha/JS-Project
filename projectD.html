@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary App</title>
+    <link rel="stylesheet" href="projectD.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://images.freeimages.com/fic/images/icons/2595/leopard_graphite/512/dictionary.png"> <!-- For PNG favicon -->
+</head>
+<body>
+     <h1 id="dic">Dictionary</h1>
+    <div class="header">
+        <h1 id="user">Welcome, User!</h1>
+    </div>
+
+    <div id="search">
+        <label for="inp-word">Enter a word:</label>
+            <input type="text" id="inp-word" placeholder="Type here..." autocomplete="off">
+            <button id="search-btn"> <i class="fas fa-search"></i></button>
+    </div>
+    <div id="suggestions"></div>
+    <div id="result"></div>
+    <div class="spinner" id="loadingSpinner" style="display: none;"></div>
+    <audio id="sound"></audio>
+   <script src="projectD.js"></script>
+</body>
+</html>
