@@ -75,6 +75,50 @@ const handleSearch = async (word) => {
             setTimeout(() => definitionDiv.classList.add("show-content"), 600);
         }
 
+        // Telugu Definition
+        let definitionForTranslation = dictionaryData[0].meanings.find(m => m.definitions[0].definition)?.definitions[0].definition || "";
+        if (definitionForTranslation) {
+            try {
+                let translateResponse = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=te&dt=t&q=${encodeURIComponent(definitionForTranslation)}`);
+                let translateData = await translateResponse.json();
+                let translatedDefinition = translateData[0][0][0];
+                let TelugudefinitionDiv = document.createElement("div");
+                TelugudefinitionDiv.className = "definition";
+                TelugudefinitionDiv.innerHTML = `<strong>Definition(Telugu):</strong> ${translatedDefinition}`;
+                result.appendChild(TelugudefinitionDiv);
+                setTimeout(() => TelugudefinitionDiv.classList.add('show-content'), 600);
+            }
+            catch (err) {
+                console.error("Error fetching Telugu translation:", err);
+                let errorDiv = document.createElement("div");
+                errorDiv.className = "error";
+                errorDiv.innerHTML = `<strong>Definition(Telugu):</strong> Unable to fetch translation.`;
+                result.appendChild(errorDiv);
+            }
+        }
+
+        // Hindi Definition
+        let definitionForTranslation2 = dictionaryData[0].meanings.find(m => m.definitions[0].definition)?.definitions[0].definition || "";
+        if (definitionForTranslation2) {
+            try {
+                let translateResponse2 = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=hi&dt=t&q=${encodeURIComponent(definitionForTranslation)}`);
+                let translateData2 = await translateResponse2.json();
+                let translatedDefinition2 = translateData2[0][0][0];
+                let hindiDefinitionDiv = document.createElement("div");
+                hindiDefinitionDiv.className = "definition";
+                hindiDefinitionDiv.innerHTML = `<strong>Definition(Hindi):</strong> ${translatedDefinition2}`;
+                result.appendChild(hindiDefinitionDiv);
+                setTimeout(() => hindiDefinitionDiv.classList.add('show-content'), 600);
+            }
+            catch (err) {
+                console.error("Error fetching Hindi translation:", err);
+                let errorDiv = document.createElement("div");
+                errorDiv.className = "error";
+                errorDiv.innerHTML = `<strong>Definition(Hindi):</strong> Unable to fetch translation.`;
+                result.appendChild(errorDiv);
+            }
+        }
+
         // Display Example sentence
         let example = findExampleWithWord(dictionaryData[0].meanings, word) || dictionaryData[0].meanings[0].definitions[0]?.example || "";
         if (example) {
@@ -85,39 +129,41 @@ const handleSearch = async (word) => {
             setTimeout(() => exampleDiv.classList.add('show-content'), 750);
         }
 
-       // Fetch synonyms and antonyms from thesaurus api
-       const thesaurusApiUrl = "https://thesaurus-by-api-ninjas.p.rapidapi.com/v1/thesaurus?word=";
-       const thesaurusOptions = {
-           method: 'GET',
-           headers: {
-               'x-rapidapi-key': '172be0fd3dmshd8f189ff539b4d7p1ea48bjsn2d27fa8a4e9c',
-               'x-rapidapi-host': 'thesaurus-by-api-ninjas.p.rapidapi.com'
-       }
-       };
-       const thesaurusResponse = await fetch(`${thesaurusApiUrl}${word}`, thesaurusOptions);
-       const thesaurusData = await thesaurusResponse.json();
-       let synonyms = thesaurusData.synonyms.slice(0, 10);
-       let antonyms = thesaurusData.antonyms.slice(0, 10);
-       console.log(antonyms)
-       console.log(synonyms)
-       if (synonyms.length > 1){
-           
-           let synonymsDiv = document.createElement("div");
-           synonymsDiv.className = "synonyms";
-           synonymsDiv.innerHTML = `<strong>Synonyms:</strong> ${synonyms.join(', ')}`;
-           result.appendChild(synonymsDiv);
-           setTimeout(() => { synonymsDiv.classList.add('show-content');
-           });
-       }
-       if (antonyms.length > 1){
-           
-           let antonymsDiv = document.createElement("div");
-           antonymsDiv.className = "antonyms";
-           antonymsDiv.innerHTML = `<strong>antonyms:</strong> ${antonyms.join(', ')}`;
-           result.appendChild(antonymsDiv);
-           setTimeout(() => {antonymsDiv.classList.add('show-content');
-           });
-       }
+        // Fetch synonyms and antonyms from thesaurus api
+        const thesaurusApiUrl = "https://thesaurus-by-api-ninjas.p.rapidapi.com/v1/thesaurus?word=";
+        const thesaurusOptions = {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': '172be0fd3dmshd8f189ff539b4d7p1ea48bjsn2d27fa8a4e9c',
+                'x-rapidapi-host': 'thesaurus-by-api-ninjas.p.rapidapi.com'
+            }
+        };
+        const thesaurusResponse = await fetch(`${thesaurusApiUrl}${word}`, thesaurusOptions);
+        const thesaurusData = await thesaurusResponse.json();
+        let synonyms = thesaurusData.synonyms.slice(0, 10);
+        let antonyms = thesaurusData.antonyms.slice(0, 10);
+        console.log(antonyms)
+        console.log(synonyms)
+        if (synonyms.length > 1) {
+
+            let synonymsDiv = document.createElement("div");
+            synonymsDiv.className = "synonyms";
+            synonymsDiv.innerHTML = `<strong>Synonyms:</strong> ${synonyms.join(', ')}`;
+            result.appendChild(synonymsDiv);
+            setTimeout(() => {
+                synonymsDiv.classList.add('show-content');
+            });
+        }
+        if (antonyms.length > 1) {
+
+            let antonymsDiv = document.createElement("div");
+            antonymsDiv.className = "antonyms";
+            antonymsDiv.innerHTML = `<strong>antonyms:</strong> ${antonyms.join(', ')}`;
+            result.appendChild(antonymsDiv);
+            setTimeout(() => {
+                antonymsDiv.classList.add('show-content');
+            });
+        }
 
         // fetch images from unsplash api
         const imageResponse = await fetch(`https://api.unsplash.com/search/photos?query=${word}&client_id=nqqN5PrwcgdzEng3auwnBrYtZrzfFv7lSFFmyDMnBCE&per_page=12`);
@@ -131,7 +177,7 @@ const handleSearch = async (word) => {
             });
             imagesHtml += '</div>';
             result.innerHTML += imagesHtml;
-            setTimeout(() => document.querySelector('.images').classList.add('show-content'), 1000); 
+            setTimeout(() => document.querySelector('.images').classList.add('show-content'), 1000);
         } else {
             result.innerHTML += `<p class="error">No images found for "${word}".</p>`;
         }

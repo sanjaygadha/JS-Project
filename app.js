@@ -1,16 +1,20 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js"
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDiqOJn7fHmvcjMDpam59oawOkesff1EPQ",
-    authDomain: "loginsignup-d8e46.firebaseapp.com",
-    projectId: "loginsignup-d8e46",
-    storageBucket: "loginsignup-d8e46.firebasestorage.app",
-    messagingSenderId: "613824798952",
-    appId: "1:613824798952:web:925f0a5dd3e67894d3295d"
-  };
+  apiKey: "AIzaSyDiqOJn7fHmvcjMDpam59oawOkesff1EPQ",
+  authDomain: "loginsignup-d8e46.firebaseapp.com",
+  projectId: "loginsignup-d8e46",
+  storageBucket: "loginsignup-d8e46.firebasestorage.app",
+  messagingSenderId: "613824798952",
+  appId: "1:613824798952:web:925f0a5dd3e67894d3295d",
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -79,4 +83,11 @@ form.addEventListener("submit", (e) => {
       })
       .catch((error) => alert("Error: " + error.message));
   }
+});
+
+const guest = document.getElementById("guest-button");
+guest.addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent default button behavior if it's inside a form
+  alert("You are logged in as a guest");
+  window.location.href = "./projectD.html"; // Use `location.href` for navigation
 });
